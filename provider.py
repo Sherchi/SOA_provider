@@ -12,7 +12,7 @@ class Provider:
             port = 4000
             containerName = "pastyields"
 
-        elif serviceName == "datadisplay":
+        elif serviceName == "datadisplayer":
             port = 4001
             containerName = "datadisplayer"
 
@@ -34,7 +34,7 @@ app = Flask(__name__)
 
 
 #Manual Register
-@app.route('/getinfo', methods=['GET'])
+@app.route('/send-register-request', methods=['GET'])
 def manualRegister():
     #get service information 
     serviceName = request.args.get('serviceName')
@@ -42,6 +42,23 @@ def manualRegister():
     #send request to register into registry 
     registerURL = "http://registry:4004//register-service"
     response = requests.post(registerURL, json=serviceInfo)
+    response_data = {
+        "status_code": response.status_code,
+        "content": response.text  # You can adjust this based on the content type of the response
+    }
+    return {"mes": response_data}
+
+@app.route('/send-deregister-request', methods=['GET'])
+def manualDeregister():
+    #get service information 
+    serviceName = request.args.get('serviceName')
+    serviceInfo = Provider.serviceInfoRequest(serviceName)
+    
+    containerName = serviceInfo.get("containerName", "")
+    param = {"containerName": containerName}
+    #send request to register into registry 
+    registerURL = "http://registry:4004//deregister-service"
+    response = requests.delete(registerURL, json=param)
     response_data = {
         "status_code": response.status_code,
         "content": response.text  # You can adjust this based on the content type of the response
