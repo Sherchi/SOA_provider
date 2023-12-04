@@ -40,7 +40,7 @@ def manualRegister():
     serviceName = request.args.get('serviceName')
     serviceInfo = Provider.serviceInfoRequest(serviceName)
     #send request to register into registry 
-    registerURL = "http://registry:4004//register-service"
+    registerURL = "http://registry:4004/register-service"
     response = requests.post(registerURL, json=serviceInfo)
     response_data = {
         "status_code": response.status_code,
@@ -57,7 +57,7 @@ def manualDeregister():
     containerName = serviceInfo.get("containerName", "")
     param = {"containerName": containerName}
     #send request to register into registry 
-    registerURL = "http://registry:4004//deregister-service"
+    registerURL = "http://registry:4004/deregister-service"
     response = requests.delete(registerURL, json=param)
     response_data = {
         "status_code": response.status_code,
