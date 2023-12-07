@@ -10,6 +10,7 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install Flask 
 RUN pip install requests
+RUN pip install tenacity
 # CMD to run the script
 
 EXPOSE 4003
